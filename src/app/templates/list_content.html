@@ -1,0 +1,9 @@
+<!-- Use Jinja2 for loop to generate event cards -->
+{% if events %}
+    {% for event in events %}
+        {% include './event_card.html' %}
+    {% endfor %}
+{% else %}
+    <h1 style="grid-column: span 3; text-align: center; font-size: 24px;">¡No se han encontrado eventos con los parámetros especificados!</h1>
+    <img src="{{ url_for('static', filename='images/rsz_no_results_found.png') }}" alt="No events found" style="grid-column: span 3; display: block; margin: auto; height: auto;">
+{% endif %}

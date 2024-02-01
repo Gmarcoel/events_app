@@ -1,0 +1,33 @@
+<header class="flex justify-between items-center p-4 header-class">
+    <div class="flex items-center">
+        <a href="{{ url_for('index') }}" class="text-3xl font-bold mr-4" id="m-enjoy-title">M-enjoy</a>
+        <!--<div class="search-container flex items-center ml-4"> -->
+        <form action="/search" method="get" class="search-container flex items-center ml-4">
+            <input type="text" name="query" class="search-input" placeholder="¿A dónde vas a viajar?"
+                aria-label="Search">
+            <button aria-label="Search" type="submit">
+                <i class="fas fa-search search-icon"></i>
+            </button>
+        </form>
+        <!--</div> -->
+    </div>
+
+    <!-- User icon -->
+    <label for="toggle" id="userIcon" 
+        class="rounded-full bg-white p-2 w-10 h-10 flex justify-center items-center header-user-icon" tabindex="0">
+        <i class="fas fa-user" style="color:black"></i>
+    </label>
+    
+    <div id="user-popup">
+        Esta funcionalidad aún no está disponible
+    </div>
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+</header>

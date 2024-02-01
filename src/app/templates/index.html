@@ -1,0 +1,150 @@
+{%extends './layout.html'%}
+
+{% block styles %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block title %}
+M-enjoy
+{% endblock %}
+
+{% block header %}
+{% include './header.html' %}
+{% endblock %}
+
+{% block body %}
+
+
+
+
+<div class="container-fluid banner-background d-flex flex-column">
+
+    <div class="row flex-grow-1 justify-content-center align-items-center">
+        <div class="col-auto text-center">
+            <h2 class="text-6xl font-bold leading-tight text-center index-title"> Encuentra tu plan a medida en Madrid
+            </h2>
+            <button id="btn-search-plan" class=" text-white font-bold py-2 px-8 rounded-full">BUSCA TU
+                PLAN</button>
+        </div>
+    </div>
+
+    <!-- POPUP CONTAINER -->
+    <div id="overlay"></div>
+    <div id="popup">
+        <form id="user-response-form" class="container-fluid h-100" action="/list_page" style="padding-top: 0px">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 style="font-size: 1.4em; color: #333; text-shadow: 2px 2px 4px #999; margin-bottom: 10px;">¿Como te sientes?</h2>
+                    <p>Valora del 1 al 5 las siguientes preguntas:</p>
+                </div>
+            </div>
+            <div class="row flex-grow-1">
+                <div class="col-6">
+                    <div class="mb-6">
+                        <div id="sliderCardEnergic" class="sliderCard" style="display: none;"><span id="cardValueEnergic">50</span></div>
+                        <label for="energic">¿Qué tipo de chispa quieres que tenga esta experiencia?</label>
+                        <input type="range" id="energic" name="energic" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardExciting" class="sliderCard" style="display: none;"><span id="cardValueExciting">50</span></div>
+                        <label for="exciting">¿Quieres que sea una montaña rusa de emociones?</label>
+                        <input type="range" id="exciting" name="exciting" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardCalm" class="sliderCard" style="display: none;"><span id="cardValueCalm">50</span></div>
+                        <label for="calm">¿Buscas una experiencia que sea un torbellino de emoción o un remanso de
+                            calma?</label>
+                        <input type="range" id="calm" name="calm" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardOutdoors" class="sliderCard" style="display: none;"><span id="cardValueOutdoors">50</span></div>
+                        <label for="outdoors">¿Te gustaría que esta vivencia sea bajo el sol y el cielo abierto?</label>
+                        <input type="range" id="outdoors" name="outdoors" min="1" max="5">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-6">
+                        <div id="sliderCardWithChildren" class="sliderCard" style="display: none;"><span id="cardValueWithChildren">50</span></div>
+                        <label for="with_children">¿Quieres que sea una experiencia para disfrutar con la energía de los
+                            más pequeños?</label>
+                        <input type="range" id="with_children" name="with_children" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardFunny" class="sliderCard" style="display: none;"><span id="cardValueFunny">50</span></div>
+                        <label for="funny">¿Quieres que sea un festival de diversión?</label>
+                        <input type="range" id="funny" name="funny" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardClose" class="sliderCard" style="display: none;"><span id="cardValueClose">50</span></div>
+                        <label for="close">¿Prefieres una moverte poco o escapar lejos?</label>
+                        <input type="range" id="close" name="close" min="1" max="5">
+                    </div>
+                    <div class="mb-6">
+                        <div id="sliderCardPrice" class="sliderCard" style="display: none;"><span id="cardValuePrice">50</span></div>
+                        <label for="price">¿Cuanto quieres gastar? $$ </label>
+                        <input type="range" id="price" name="price" min="1" max="5">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button type="submit" id="btn-submit-response"
+                        class="text-white font-bold py-2 px-4 rounded-full index-submit-button">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <div class="row mt-auto">
+        <div class="col-12">
+            <div class="flex items-center justify-center index-cat-bar">
+                <button class="category-button" id="btn-cult">CULTURA</button>
+                <button class="category-button" id="btn-sport">DEPORTES Y AVENTURA</button>
+                <button class="category-button" id="btn-gastro">GASTRONOMÍA</button>
+                <button class="category-button" id="btn-bienestar">BIENESTAR</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container-fluid main-events mt-4 index-events-container">
+    <div class="row index-section-row">
+        <div class="col-12">
+            <h2 class="text-4xl font-bold leading-tight event-title">Eventos Populares</h2>
+        </div>
+    </div>
+
+    <div class="row mt-4 index-card-container justify-content-center">
+        {% for event in popular_events %}
+            {% include './event_card.html' %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container-fluid main-events mt-4 index-events-container">
+    <div class="row index-section-row">
+        <div class="col-12">
+            <h2 class="text-4xl font-bold leading-tight event-title">Eventos Cercanos</h2>
+        </div>
+    </div>
+
+    <div class="row mt-4 nearest-events-container index-card-container justify-content-center">
+    </div>
+
+</div>
+
+{% block scripts %}
+<script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- jQuery -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

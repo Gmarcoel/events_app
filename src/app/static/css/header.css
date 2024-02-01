@@ -1,0 +1,101 @@
+:root {
+    --header-bg-color: #222;
+    --search-container-bg-color: white;
+    --search-input-color: black;
+    --search-icon-color: black;
+    --title-color: white;
+}
+
+.header-class {
+    background-color: var(--header-bg-color);
+}
+
+.search-container {
+    background-color: var(--search-container-bg-color);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.search-input {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: var(--search-input-color);
+    font-size: 16px;
+}
+
+.search-icon {
+    color: var(--search-icon-color);
+}
+
+#m-enjoy-title {
+    color: var(--title-color);
+    text-decoration: none;
+}
+
+
+
+/* User icon button */
+
+.header-user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.header-user-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+
+
+
+#user-popup {
+    display             : none;
+    background-color    : #f9f9f9;
+    border              : 1px solid #ccc;
+    padding             : 15px;
+    border-radius       : 10px;
+    box-shadow          : 0 5px 10px rgba(0,0,0,0.1);
+    width               : 200px;
+    height              : auto;
+    font-family         : 'Arial', sans-serif;
+    font-size           : 14px;
+    font-weight         : bold;
+    color               : #333;
+
+    animation: slideIn 0.5s forwards;
+    transform: translate(10px, -50%);
+
+    z-index: 1;
+}
+
+#userIcon:focus + #user-popup {
+    display: block;
+    position: absolute;
+
+    top: 5%;
+    right: 5%;
+}
+
+
+
+
+@keyframes slideIn {
+    0% {transform: translate(0, -50%); opacity: 0;}
+    100% {transform: translate(10px, -50%); opacity: 1;}
+}
+
+@keyframes slideOut {
+    0% {transform: translate(10px, -50%); opacity: 1;}
+    100% {transform: translate(0, -50%); opacity: 0;}
+}
+```
+```

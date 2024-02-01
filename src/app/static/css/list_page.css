@@ -1,0 +1,71 @@
+:root {
+    --body-bg-color: #232;
+    --active-button-bg-color: #007BFF;
+    --active-button-text-color: #fff;
+    --active-button-shadow-color: rgba(0, 0, 0, 0.5);
+    --search-container-bg-color: white;
+    --search-input-color: black;
+    --search-icon-color: black;
+}
+
+body {
+    background-color: var(--body-bg-color) !important;
+}
+
+/* Style for the active button */
+.active-button {
+    background-color: var(--active-button-bg-color); /* Change the background color as needed */
+    color: var(--active-button-text-color); /* Text color for active button */
+    box-shadow: 0px 0px 5px var(--active-button-shadow-color); /* Add shadow effect */
+}
+
+.search-container {
+    background-color: var(--search-container-bg-color);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.search-input {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: var(--search-input-color);
+    font-size: 16px;
+}
+
+.search-icon {
+    color: var(--search-icon-color);
+}
+
+
+
+/* Event cards */
+.event-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+
+    max-width:  400px;
+    height:     500px;
+    
+
+}
+
+.event-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.event-card .fas.fa-star {
+    transition: transform 0.3s ease-in-out;
+}
+
+.event-card .fas.fa-star:hover {
+    transform: rotate(360deg);
+}
+
+.event-card img {
+    object-fit: cover;
+    height: 60%;
+}

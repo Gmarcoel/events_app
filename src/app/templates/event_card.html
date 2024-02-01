@@ -1,0 +1,33 @@
+<!-- Se debe añadir el paso de argumentos en la tarjeta-->
+<a href="{{ url_for('event_detail_page', event_title=event.title) }}" class="no-underline">
+    <div class="event-card bg-white text-gray-900 rounded-lg overflow-hidden">
+        <img src="{{ event.portrait }}" alt="{{ event.title }}" class="w-full">
+        <div class="p-4">
+            <p class="font-semibold">{{ event.title }}</p>
+            <p class="text-xs">{{ event.date }}</p>
+            <div class="flex items-center mt-2">
+                {% set ns = namespace(total_rating=0) %}
+                {% for comment in event.comments %}
+                    {% set ns.total_rating = ns.total_rating + comment.rating|float %}
+                {% endfor %}
+
+                {% if event.comments|length > 0 %}
+                    {% set mean_rating = ns.total_rating / (2 * event.comments|length) %}
+                {% else %}
+                    {% set mean_rating = 0 %}
+                {% endif %}
+                {% if mean_rating >= 4 and mean_rating < 5 %}
+                    {% set mean_rating = 4 %}
+                {% endif %}
+                {% for i in range(mean_rating|round|int) %}
+                    <i class="fas fa-star text-yellow-400"></i>
+                {% endfor %}
+                {% for i in range(5 - mean_rating|round|int) %}
+                    <i class="fas fa-star text-gray-400"></i>
+                {% endfor %}
+                <span class="text-xs ml-1">{{ event.rating }}</span>
+            </div>
+            <p class="mt-3 text-lg font-bold">{{ event.price }}</p>
+        </div>
+    </div>
+</a>

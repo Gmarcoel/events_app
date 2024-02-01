@@ -1,0 +1,224 @@
+{%extends './layout.html'%}
+
+{% block styles %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/event_detail.css') }}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block title %}
+{{event_title}}
+{% endblock %}
+
+{% block header %}
+{% include './header.html' %}
+{% endblock %}
+
+{% block body %}
+<div class="main-container">
+	<div class="container-fluid banner-container m-5">
+		<div id="carouselEventImages" class="carousel slide" data-ride="carousel" data-interval="10000">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="d-flex justify-content-start">
+					  {% for image in event.images %}
+						<img src="{{ image }}" class="carousel-image">
+					  {% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid details-container m-5" style="margin-right: 100px;">
+	<div class="row">
+		<div class="col-md-7 info-container">
+			<!-- Event Title and Opinions -->
+			<div class="subcontainer event-title-opinions">
+				<div class="d-flex justify-content-between mb-3">
+					<div>
+						<p class="event-title">{{ event.title }} </p>
+						<p class="location-summary"> {{ event.address }} <a href="#google-map" class="map-link">(ver
+								mapa)</a></p>
+					</div>
+
+					{% set ns = namespace(total_rating=0) %}
+					{% for comment in event.comments %}
+					{% set ns.total_rating = ns.total_rating + comment.rating|float %}
+					{% endfor %}
+					{% if event.comments|length > 0 %}
+					{% set mean_rating = ns.total_rating / event.comments|length %}
+					{% else %}
+					{% set mean_rating = -1 %}
+					{% endif %}
+					{% set rating_color = 'red' %}
+					{% set back_rating_color = '#ffcccc' %}
+					{% if mean_rating >= 8 %}
+					{% set rating_color = 'green' %}
+					{% set back_rating_color = '#c2f0c2' %}
+					{% elif mean_rating >= 5 %}
+					{% set rating_color = 'orange' %}
+					{% set back_rating_color = '#ffe6cc' %}
+					{% endif %}
+					{% if mean_rating == -1 %}
+					{% set rating_color = '#555555' %}
+					{% set back_rating_color = '#cccccc' %}
+					{% endif %}
+
+					<div class="event-rating flex flex-col items-center justify-center"
+						style="background-color: {{ back_rating_color }};">
+						<span class="rating-text" style="color: {{ rating_color }};">Rating</span>
+						{% if mean_rating == -1 %}
+						<span class="rating-number" style="color: {{ rating_color }};">NA</span>
+						{% else %}
+						<span class="rating-number" style="color: {{ rating_color }};">{{ mean_rating|round(1) }}</span>
+						{% endif %}
+						<a href="#opinions-list" class="opinions">{{ event.comments|length }} opiniones</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Description Subcontainer -->
+			<div class="subcontainer description">
+				<div class="mb-3 text-left ">
+					<h1 class="text-3xl ">Descripción</h1>
+					<p class="text-lg text-black mt-4">
+						<span id="description"></span>
+					</p>
+					<button id="toggle-button" class="btn btn-link">Mostrar más</button>
+					<div id="hidden-description" style="display:none;">{{ event.description }}</div>
+				</div>
+			</div>
+
+			<!-- Event Data Subcontainer -->
+			<div class="subcontainer event-data mx-auto mt-5">
+				<div class="flex flex-col justify-between border-b-2 border-gray-200 pb-3">
+					<div class="w-full">
+						<h1 class="text-3xl ">Datos del evento</h1>
+					</div>
+					<div class="flex flex-wrap" style="width: 100%; max-width: 100%; justify-content: space-between;">
+						{% for key, value in event.data.items() %}
+						<div class="w-1/2">
+							<p class="text-lg text-black mt-4">
+								<span class="font-bold">{{ key }}: </span>
+								<span>{{ value }}</span>
+							</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Google Map Subcontainer -->
+			<div class="subcontainer google-map" id="google-map">
+				<div class="mb-3">
+					<h1 class="text-3xl ">Mapa</h1>
+					<div class="map-container">
+						<div id="map" data-event-coordinates="{{ event.coordinates }}"
+							data-event-title="{{ event.title }} "></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Opinions List Subcontainer -->
+			<div class="subcontainer" id="opinions-list">
+				<div class="mb-3">
+					<h1 class="text-3xl">Opiniones</h1>
+					{% for comment in event.comments %}
+					<div class="opinion-container" style="display: flex; justify-content: space-between;">
+						<div class="opinion">
+							<div class="font-bold text-xl mb-2">{{ comment.user }}</div>
+							<p class="text-gray-700 text-base">
+								{{ comment.description|truncate(100, end='...') }}
+							</p>
+						</div>
+
+						<div class="icon-div" style="min-width: 20%; display: flex; justify-content: flex-start;">
+							<span
+								class="inline-block bg-yellow-400 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2"
+								style="background-color: {% if (comment.rating|float) < 10 %}green{% elif(comment.rating|float) < 5 %}red{% endif %};">
+								{{ comment.rating }}
+							</span>
+							<span class="inline-block">
+								{% set stars = (comment.rating|float) // 2 %}
+								{% for i in range(stars|int) %}
+								<i class="fas fa-star text-yellow-500 mr-1"></i>
+								{% endfor %}
+							</span>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3 pay-container">
+
+			<div class="bg-white p-6 rounded-lg shadow-lg">
+				<div class="flex justify-between items-center mb-4">
+					<span class="text-gray-500 text-sm" style="font-size: 14px;">Antes {{ event.price}}</span>
+					<span class="text-white bg-green-600 px-3 py-1 rounded-lg text-sm"
+						style="font-size: 14px;">-14%</span>
+				</div>
+				<div class="flex justify-between items-center mb-2">
+					{% set price = event.price[:-1]|float(default=0) %}
+					{% set discounted_price = price * 0.86 %}
+					<span class="text-gray-900 font-bold" style="font-size: 32px;">{{ discounted_price|round(2)
+						}}€</span>
+					<span class="text-gray-500 text-sm" style="font-size: 14px;">+ 0,50 € gastos gestión.</span>
+				</div>
+				<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+					<button class="w-full text-white py-2 rounded-lg mt-4 detail-button-buy">
+						COMPRAR
+					</button>
+				</a>
+				<p class="text-gray-500 mt-3 text-sm" style="font-size: 14px;">Una vez confirmado, no se admitirán
+					cambios ni
+					cancelaciones</p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="{{ url_for('static', filename='js/event_detail.js') }}"></script>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=XXXXXXXX&callback=initMap">
+	</script>
+<script>
+
+	var totalRating = 0;
+	for (var i = 0; i < event.comments.length; i++) {
+		totalRating += parseFloat(event.comments[i].rating);
+	}
+	var meanRating = totalRating / event.comments.length;
+
+	var ratingColor;
+	if (meanRating >= 8) {
+		ratingColor = 'green';
+	} else if (meanRating >= 5) {
+		ratingColor = 'orange';
+	} else {
+		ratingColor = 'red';
+	}
+
+	document.addEventListener('DOMContentLoaded', (event) => {
+		document.querySelector('.rating-number').textContent = meanRating.toFixed(1);
+		document.querySelector('.rating-number').style.color = ratingColor;
+		document.querySelector('.opinions').textContent = event.comments.length + ' opiniones';
+		console.log('DOM fully loaded and parsed');
+	});
+</script>
+{% endblock %}

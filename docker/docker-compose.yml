@@ -1,0 +1,58 @@
+#
+# Note: for this to work there has to be an environment file: env.dev and a .env pointing to it
+#
+
+version: '3.3'
+
+services:
+  mongo_db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+    volumes:
+      - mongo_data:/data/db
+  
+  webapp:
+    build:
+      context: ../src
+      dockerfile: app/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../src/app:/usr/src/app
+    environment:
+      MONGO_USERNAME: "${MONGO_USERNAME}"
+      MONGO_PASSWORD: "${MONGO_PASSWORD}"
+      MONGO_HOST: "${MONGO_HOST}"
+      MONGO_PORT: ${MONGO_PORT}
+      MONGO_DB: "${MONGO_DB_NAME}"
+      MONGO_COLLECTION: "${MONGO_COLLECTION}"
+      FLASK_ENV: "development"
+      SECRET_FLASK_KEY: "${SECRET_FLASK_KEY}"
+    depends_on:
+      - mongo_db
+  
+  etl:
+    build:
+      context: ../src
+      dockerfile: etl/Dockerfile
+    volumes:
+      - ../src/etl:/usr/src/etl
+    environment:
+      MONGO_USERNAME: "${MONGO_USERNAME}"
+      MONGO_PASSWORD: "${MONGO_PASSWORD}"
+      MONGO_HOST: "${MONGO_HOST}"
+      MONGO_PORT: ${MONGO_PORT}
+      MONGO_DB: "${MONGO_DB_NAME}"
+      MONGO_COLLECTION: "${MONGO_COLLECTION}"
+    depends_on:
+      - mongo_db
+  
+volumes:
+  mongo_data:
+
+
+

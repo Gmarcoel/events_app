@@ -1,0 +1,62 @@
+{%extends './layout.html'%}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list_page.css') }}"> 
+{% endblock %}
+
+{% block title %}
+    Eventos en Madrid
+{% endblock %}
+
+{% block header %}
+    {% include './header.html' %}
+{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4">
+    <main>
+        <section class="text-center py-8">
+            <h1 class="text-4xl font-bold">Cosas que hacer en Madrid</h1>
+            <p class="text-sm mt-3">
+                ¿Buscas cosas que hacer en Madrid? Descubre todo nuestro catálogo y encuentra las mejores
+                experiencias y actividades que hay ahora mismo en la ciudad.
+            </p>
+        </section>
+
+        <section class="flex justify-end items-center">
+            <div>
+                <button id="btn-list" class="text-white px-4 py-2 mr-2">
+                    <i class="fas fa-bars"></i>
+                    <p>Lista</p> 
+                </button>
+            </div>
+            <div>
+                <button id="btn-map" class="text-white px-4 py-2 ml-2">
+                    <i class="fas fa-map-marker-alt"></i> 
+                    <p>Mapa</p>
+                </button>
+            </div>
+        </section>
+
+        <section id="list-map-container" class="grid grid-cols-4 gap-3">
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var query = '{{ query | tojson }}';
+        console.log(query);
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='js/map_script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/list_page.js') }}"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=XXXXXXXX&callback=initMap">
+    </script>
+    
+{% endblock %}
+

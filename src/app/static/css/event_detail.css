@@ -1,0 +1,148 @@
+body {
+    background-color: #232 !important;
+}
+
+.banner-container, .info-container, .pay-container {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.7); /* Relief effect */
+    margin: 10px; /* Add some space around containers */
+    padding: 10px; /* Padding inside the containers */
+}
+
+#carouselEventImages .carousel-inner {
+    overflow: hidden;
+}
+  
+#carouselEventImages .carousel-item {
+display: flex;
+flex-wrap: nowrap;
+}
+
+#carouselEventImages .carousel-image {
+flex: 0 0 33.333%; /* 100% / 3 */
+max-width: 33.333%; /* 100% / 3 */
+object-fit: cover; /* Adjust to your preference */
+}
+
+.banner-container {
+    max-width: calc(100% - 30px); /* Adjust as needed */
+    margin-right: auto;
+    height: auto; /* 20% of the viewport height */
+}
+.info-container {
+    width: 66.66%; /* 2/3 of the width */
+    padding-right: 15px;
+}
+.pay-container {
+    position: fixed;
+    top:0;
+    margin-left: auto;
+    padding-right: 15px;
+    margin-right: auto;
+    height: fit-content;
+    max-height: fit-content;
+
+}
+
+.subcontainer {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Space between subcontainers */
+    padding: 10px; /* Padding inside subcontainers */
+    background-color: #fff; /* Optional: background color for contrast */
+    color: black;
+}
+
+.map-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure the container has height */
+}
+
+#map {
+    height: 500px;
+    width: 70%;
+}
+
+.main-container {
+    padding-right: 6%;
+}
+
+/* Estilos cuadro títulos y opiniones */
+
+.event-rating { 
+    background-color: #D1FAE5; 
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem; 
+}
+.event-title { 
+color: #111827; 
+font-size: 1.875rem; /* 30px */
+font-weight: 700; 
+}
+.event-subtitle { 
+color: #6B7280; 
+font-size: 1.25rem; /* 20px */
+font-weight: 600; 
+}
+.location-summary { 
+color: #6B7280; 
+font-size: 1rem; /* 16px */
+font-weight: 400; 
+}
+.map-link { 
+color: #3B82F6; 
+font-size: 1rem; /* 16px */
+font-weight: 400; 
+text-decoration: underline; 
+}
+.rating-text { 
+color: #047857; 
+font-size: 0.875rem; /* 14px */
+font-weight: 700; 
+}
+.rating-number { 
+color: #10B981; 
+font-size: 2.25rem; /* 36px */
+font-weight: 700; 
+}
+.opinions { 
+color: #6B7280; 
+font-size: 0.875rem; /* 14px */
+font-weight: 400; 
+}
+
+.opinion-container {
+    display: flex;
+    align-items: center; /* Align items horizontally */
+    margin-top: 15px;
+    margin-bottom: 15px; /* Add space between opinions */
+    border: 2px solid #ccc; /* Example: gray border, adjust as needed */
+    border-radius: 10px; /* Adjust for desired roundness */
+    padding: 15px; /* Space between border and contents */
+    background-color: #f9f9f9; /* Optional: background color */
+}
+
+.opinion {
+    flex-grow: 1; /* Allows the opinion div to take up available space */
+}
+
+h1 {
+    margin-bottom: 20px; /* Set the desired bottom margin */
+}
+
+/* Boton compra */
+.detail-button-buy {
+    background-color: #232;
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem; /* 20px */
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.detail-button-buy:hover {
+    background-color: #343;
+}
